@@ -13,7 +13,7 @@ Languages:
     - JavaScript for parsing JSON return objects from Spotify API
 
 The two inter-language communication methods:
-    - Jython: embed Python code directly in the Java application
+    - Docker RPC - Python as server for Spotify API wrapper, Java as client
 
     - ScriptEngine - running Javascript from Java
 
