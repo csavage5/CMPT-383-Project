@@ -41,7 +41,7 @@ services:
   js:
    build:
      context: .
-     dockerfile: js.Dockerfile
+     dockerfile: js.Dockerfile 
 
   #ocaml:
   #  build:
