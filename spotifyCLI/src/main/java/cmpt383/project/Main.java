@@ -9,7 +9,9 @@ import com.wrapper.spotify.model_objects.credentials.ClientCredentials;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import com.wrapper.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.ParseException;
+//import java.net.http.HttpClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import java.net.URI;
+import java.util.Scanner;
 
 public class Main {
 
@@ -38,7 +41,25 @@ public class Main {
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri().build();
         URI uri = authorizationCodeUriRequest.execute();
         System.out.println(uri);
+
+        // TODO Wait for user to confirm their verification
+        System.out.println("Press Enter/Return once spotifyCLI has been granted access to a Spotify account.");
+        Scanner inputReader = new Scanner(System.in);
+        inputReader.next();
+
+        // TODO check value of response from server - accepted (code) or denied (empty)
         SpotifyHttpManager http = new SpotifyHttpManager.Builder().build();
+        try {
+            String response = http.get(SpotifyHttpManager.makeUri("http://localhost:8888/getcode"), new Header[0]);
+            System.out.println("response: " + response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SpotifyWebApiException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //http.
 //        spotifyApi.
 //
 //        IHttpManager httpman = authorizationCodeUriRequest.getHttpManager();

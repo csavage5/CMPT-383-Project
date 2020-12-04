@@ -3,14 +3,16 @@ from flask import request
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
-code = ""
+
+# Must be a dictionary, a String doesn't maintain state
+code = {}
 
 @app.route('/callback', methods=['GET'])
 def spotifyRedirect():
 
-    code = request.args.get('code')
+    code["code"] = (request.args.get('code'))
     error = request.args.get('error')
-    print(code)
+    print("received code: " + code["code"])
     if error != None:
         # CASE: user denied access - return error page
         return '''
@@ -20,12 +22,13 @@ def spotifyRedirect():
 
     return '''
     <h1>Success: Access to Spotify granted.</h1>
-    <p>You can now close this webpage and return to the console.</p>'''
+    <p>You can close this webpage and return to the console.</p>'''
 
 
 # A route to return all of the available entries in our catalog.
 @app.route('/getcode', methods=['GET'])
-def api_all():
-    return ""
+def getAccessCode():
+    print("sending code: " + code["code"])
+    return code["code"]
 
 app.run(host="localhost", port=8888)
