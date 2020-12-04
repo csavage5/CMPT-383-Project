@@ -38,19 +38,37 @@ public class Main {
         SpotifyApi spotifyApi = spotifyApiBuilder.build();
 
 
-        AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri().build();
+        AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri().scope(
+                "user-top-read " +
+                "user-read-recently-played " +
+                "user-read-playback-state " +
+                "playlist-modify-public " +
+                "user-modify-playback-state " +
+                "playlist-modify-private " +
+                "user-read-currently-playing " +
+                "user-library-modify " +
+                "user-read-playback-position " +
+                "playlist-read-private " +
+                "user-read-private " +
+                "user-library-read " +
+                "playlist-read-collaborative").build();
+
         URI uri = authorizationCodeUriRequest.execute();
         System.out.println(uri);
 
         // TODO Wait for user to confirm their verification
-        System.out.println("Press Enter/Return once spotifyCLI has been granted access to a Spotify account.");
-        Scanner inputReader = new Scanner(System.in);
-        inputReader.next();
-
-        // TODO check value of response from server - accepted (code) or denied (empty)
-        SpotifyHttpManager http = new SpotifyHttpManager.Builder().build();
+        System.out.println("Press Enter/Return when spotifyCLI has been granted access to a Spotify account.\n");
         try {
-            String response = http.get(SpotifyHttpManager.makeUri("http://localhost:8888/getcode"), new Header[0]);
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // TODO check value of response from server - accepted (code) or denied ("access_denied")
+        SpotifyHttpManager http = new SpotifyHttpManager.Builder().build();
+        String response = "";
+        try {
+            response = http.get(SpotifyHttpManager.makeUri("http://localhost:8888/getcode"), new Header[0]);
             System.out.println("response: " + response);
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,35 +77,30 @@ public class Main {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //http.
-//        spotifyApi.
-//
-//        IHttpManager httpman = authorizationCodeUriRequest.getHttpManager();
-//        //httpman.
 
-        AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode("").build();
-
-//        try {
-//            AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
-//
-//            // Set access and refresh token for further "spotifyApi" object usage
-//            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
-//            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
-//            System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (SpotifyWebApiException e) {
-//            e.printStackTrace();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        if (response == "access_denied") {
+            // CASE: user denied access - do something
+        }
 
 
+        AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(response).build();
 
-        //uri.
+        try {
+            AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
 
-        //uri.
+            // Set access and refresh token for further "spotifyApi" object usage
+            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
+            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+            System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SpotifyWebApiException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
 
     }
