@@ -30,7 +30,9 @@ def spotifyRedirect():
 # Send code to Java app
 @app.route('/getcode', methods=['GET'])
 def getAccessCode():
+    accessCode = code["code"]
     print("sending code: " + code["code"])
-    return code["code"]
+    code["code"] = ""
+    return accessCode
 
 app.run(host="localhost", port=8888)
