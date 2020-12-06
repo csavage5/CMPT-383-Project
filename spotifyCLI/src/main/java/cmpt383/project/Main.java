@@ -1,24 +1,18 @@
 package cmpt383.project;
 
-import com.wrapper.spotify.IHttpManager;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.SpotifyHttpManager;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
-import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
-import com.wrapper.spotify.model_objects.credentials.ClientCredentials;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.PlaylistSimplified;
-import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
-import com.wrapper.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
-import com.wrapper.spotify.requests.data.playlists.GetListOfCurrentUsersPlaylistsRequest;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.ParseException;
 
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.Scanner;
+import java.util.Arrays;
 
 public class Main {
 
@@ -93,13 +87,26 @@ public class Main {
         authManager.getInitialCredentials(spotifyApi);
 
         // start main menu
-        while (inputManager.mainMenu(spotifyApi)) {
-
+        while (true) {
+            InputManager.displayMainMenu();
+            switch(InputManager.getInputAsInt()) {
+                case 1:
+                    ActionController.EnterPlaylistMenu(spotifyApi);
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                    ActionController.EnterUserProfileMenu(spotifyApi);
+                    break;
+                case 5:
+                case 6:
+                    System.out.println("Exiting program...");
+                    return;
+                default:
+                    System.out.println("Error: invalid selection, please try again.");
+            }
         }
 
-
-        // get data from Spotify using access and refresh tokens
-        //Paging<PlaylistSimplified> playlists = QueryManager.getPlaylists(spotifyApi);
 
     }
 

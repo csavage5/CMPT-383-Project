@@ -4,11 +4,12 @@ import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.model_objects.specification.PlaylistSimplified;
 import com.wrapper.spotify.model_objects.specification.Paging;
 
+import java.awt.print.Pageable;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class InputManager {
-    Scanner scanner = new Scanner(System.in);
+    public static Scanner scanner = new Scanner(System.in);
 
     public InputManager() {
 
@@ -16,10 +17,11 @@ public class InputManager {
 
     /**
      * Translates a user inputted integer >= 0 into a single positive integer.
-     * @param input value to evaluate
      * @return integer if successful, -1 if input was invalid
      */
-    private int translateInputToInt(String input) {
+    public static int getInputAsInt() {
+        String input = scanner.nextLine();
+
         int ret = -1;
         try {
             if ( (ret = Integer.parseInt(input)) >= 0 );
@@ -37,12 +39,10 @@ public class InputManager {
 
     /**
      * Entry point for user to select an operation.
-     * @return TRUE if main menu should appear again,
-     *      * FALSE if program should terminate.
      */
-    public Boolean mainMenu(SpotifyApi spotifyApi) {
+    public static void displayMainMenu() {
         System.out.print(
-                "Please choose an option: \n" +
+                "\nPlease choose an option: \n" +
                 "1) View your playlists\n" +
                 "2) List your top songs\n" +
                 "3) List your top artists\n" +
@@ -50,28 +50,40 @@ public class InputManager {
                 "5) View featured playlists from Spotify\n" +
                 "6) Exit program\n" +
                 " > ");
+    }
 
-        String input = scanner.nextLine();
+    public void displayPlaylistList(Paging<PlaylistSimplified> playlistList) {
+        int playlistCount = playlistList.getTotal();
 
-        switch(translateInputToInt(input)) {
-            case 1:
-                Paging<PlaylistSimplified> playlists = QueryManager.getPlaylistList(spotifyApi);
-                System.out.println(Arrays.toString(playlists.getItems()));
-                break;
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-                System.out.println("Exiting program...");
-                return false;
-            default:
-                System.out.println("Error: invalid selection.");
-                return true;
+
+    }
+
+    public static int displayPlaylistTracks(int max) {
+        int index = 0;
+        System.out.print("\nChoose option:\n" +
+                "0) Return to main menu\n");
+
+        if (max > 0) {
+            System.out.println("1-" + max +
+                    ") View songs in playlist\n" +
+                    (max+1) + ") Export this list of playlists to a CSV\n");
         }
 
-        return true;
+        System.out.print("> ");
 
+        while (true) {
+            index = InputManager.getInputAsInt();
+
+            if (index == 0) {
+                return 0;
+            } else if (index > 0 && index <= max) {
+                return index;
+            } else if (index == max + 1) {
+                return index;
+            } else if (index < 0) {
+                System.out.println("Error: invalid input, try again\n > ");
+            }
+        }
     }
 
 }
