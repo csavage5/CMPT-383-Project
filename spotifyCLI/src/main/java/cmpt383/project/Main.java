@@ -52,9 +52,8 @@ public class Main {
         // TODO attempt to open the web browser
 
         // wait for user to confirm their verification
-        System.out.print("Press Enter/Return when spotifyCLI has been granted access to a Spotify account. > ");
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
+        InputManager inputManager = new InputManager();
+        inputManager.waitForUserInteraction("Press Enter/Return when spotifyCLI has been granted access to a Spotify account. > ");
 
         // TODO check value of response from server - accepted (code) or denied ("access_denied")
         SpotifyHttpManager http = new SpotifyHttpManager.Builder().build();
@@ -93,37 +92,14 @@ public class Main {
         AuthenticationManager authManager = new AuthenticationManager(response);
         authManager.getInitialCredentials(spotifyApi);
 
-//        AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(response).build();
-//        try {
-//            AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
-//            // Set access and refresh token for further "spotifyApi" object usage
-//            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
-//            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
-//            System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (SpotifyWebApiException e) {
-//            e.printStackTrace();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        // start main menu
+        while (inputManager.mainMenu(spotifyApi)) {
+
+        }
 
 
         // get data from Spotify using access and refresh tokens
-        AuthenticationManager.refreshCredentials(spotifyApi);
-        GetListOfCurrentUsersPlaylistsRequest getListOfCurrentUsersPlaylistsRequest = spotifyApi
-                .getListOfCurrentUsersPlaylists()
-//          .limit(10)
-//          .offset(0)
-                .build();
-
-        try {
-            final Paging<PlaylistSimplified> playlistSimplifiedPaging = getListOfCurrentUsersPlaylistsRequest.execute();
-            //playlistSimplifiedPaging
-            System.out.println("Total playlists: " + playlistSimplifiedPaging.getTotal());
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        //Paging<PlaylistSimplified> playlists = QueryManager.getPlaylists(spotifyApi);
 
     }
 
