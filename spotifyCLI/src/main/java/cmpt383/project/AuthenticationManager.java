@@ -2,6 +2,7 @@ package cmpt383.project;
 
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
+import com.wrapper.spotify.exceptions.detailed.NotFoundException;
 import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRefreshRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
@@ -30,8 +31,14 @@ public class AuthenticationManager {
         lastAccessTokenLifespan = NewAccessTokenLifespan * 1000;
     }
 
-    public void getInitialCredentials(SpotifyApi spotifyApi, String userCode) {
-        //System.out.println("User code: " + _userCode);
+    /**
+     * Use code received from user authorizing the application to retrieve the access and refresh tokens
+     * @param spotifyApi
+     * @param userCode
+     * @return
+     */
+    public Boolean getInitialCredentials(SpotifyApi spotifyApi, String userCode) {
+        System.out.println("User code: " + userCode);
         AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(userCode).build();
         try {
             AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
@@ -43,13 +50,13 @@ public class AuthenticationManager {
 
             this.updateRefreshTime(authorizationCodeCredentials.getExpiresIn());
 
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         } catch (SpotifyWebApiException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+            System.out.println("Error: issue with the Spotify API when retrieving access and refresh tokens. Trying again...");
+            return false;
         }
+        return true;
     }
 
     public void refreshCredentials(SpotifyApi spotifyApi) {

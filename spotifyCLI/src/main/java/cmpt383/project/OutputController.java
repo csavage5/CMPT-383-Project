@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 public class OutputController {
 
+    public static String TRACK_HEADER = "%-6s %-60s %-25s %-50s %-13s %-12s %-22s\n";
+
     public static void outputPlaylistList(ArrayList<PlaylistSimplified> playlists) {
         int index = 1;
         //display columns
@@ -28,9 +30,9 @@ public class OutputController {
         }
     }
 
-    public static void outputTrackList(SpotifyApi spotifyApi, ArrayList<PlaylistTrack> tracks) {
+    public static void outputPlaylistTrackList(SpotifyApi spotifyApi, ArrayList<PlaylistTrack> tracks) {
 
-        System.out.printf("%-6s %-60s %-25s %-40s %-5s %-12s %-22s\n","Index", "Title","Artist", "Album", "Duration (s)", "Popularity", "SpotifyID");
+        System.out.printf("%-6s %-60s %-25s %-40s %-13s %-12s %-22s\n","Index", "Title","Artist", "Album", "Duration (s)", "Popularity", "SpotifyID");
 
         int index = 1;
         Track track;
@@ -46,7 +48,7 @@ public class OutputController {
 
             track = QueryManager.getTrackInfo(spotifyApi, pTrack.getTrack().getId());
             //TODO deal with tracks that have multiple artists
-            System.out.printf("%-6s %-60s %-25s %-40s %-5s %-12s %-22s\n",
+            System.out.printf("%-6s %-60s %-25s %-40s %-13s %-12s %-22s\n",
                     index,
                     track.getName(),
                     track.getArtists()[0].getName(),
@@ -59,4 +61,23 @@ public class OutputController {
         }
 
     }
+
+    public static void outputTracks(ArrayList<Track> tracks) {
+        System.out.printf(TRACK_HEADER,"Index", "Title", "Artist", "Album", "Duration (s)", "Popularity", "SpotifyID");
+        int index = 1;
+        for (Track track : tracks) {
+            //TODO deal with tracks that have multiple artists
+            System.out.printf(TRACK_HEADER,
+                    index,
+                    track.getName(),
+                    track.getArtists()[0].getName(),
+                    track.getAlbum().getName(),
+                    track.getDurationMs() / 1000,
+                    track.getPopularity(),
+                    track.getId());
+
+            index += 1;
+        }
+    }
+
 }

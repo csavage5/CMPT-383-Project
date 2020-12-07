@@ -6,6 +6,7 @@ import com.wrapper.spotify.model_objects.special.FeaturedPlaylists;
 import com.wrapper.spotify.model_objects.specification.*;
 import com.wrapper.spotify.requests.data.browse.GetListOfFeaturedPlaylistsRequest;
 import com.wrapper.spotify.requests.data.follow.legacy.FollowPlaylistRequest;
+import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import com.wrapper.spotify.requests.data.playlists.GetListOfCurrentUsersPlaylistsRequest;
 import com.wrapper.spotify.requests.data.playlists.GetPlaylistRequest;
 import com.wrapper.spotify.requests.data.tracks.GetTrackRequest;
@@ -18,10 +19,14 @@ import java.util.Arrays;
 
 public class QueryManager {
 
-    public static AuthenticationManager authManager = new AuthenticationManager();
+    private static AuthenticationManager authManager = new AuthenticationManager();
 
     public QueryManager() {
 
+    }
+
+    public static void getTokens(SpotifyApi spotifyApi, String userCode) {
+        authManager.getInitialCredentials(spotifyApi, userCode);
     }
 
     // ** Playlist Queries ** //
@@ -67,9 +72,10 @@ public class QueryManager {
 
         if (featuredPlaylists != null) {
             return new ArrayList<PlaylistSimplified>(Arrays.asList(featuredPlaylists.getItems()));
-        } else {
-            return new ArrayList<PlaylistSimplified>();
         }
+
+        return new ArrayList<PlaylistSimplified>();
+
     }
 
     public static ArrayList<PlaylistTrack> getPlaylistTracks(SpotifyApi spotifyApi, String playlistID) {
@@ -87,8 +93,34 @@ public class QueryManager {
             System.out.println("Error with the Spotify API, please try again.");
         }
 
-        return new ArrayList<PlaylistTrack>(Arrays.asList( playlist.getTracks().getItems() ));
+        if (playlist != null) {
+            return new ArrayList<PlaylistTrack>(Arrays.asList( playlist.getTracks().getItems() ));
+        }
 
+        return new ArrayList<PlaylistTrack>();
+
+    }
+
+    public static ArrayList<Track> getTopUserTracks(SpotifyApi spotifyApi) {
+        authManager.refreshCredentials(spotifyApi);
+
+        GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi.getUsersTopTracks().build();
+
+        Paging<Track> topTracks = null;
+
+        try {
+            topTracks = getUsersTopTracksRequest.execute();
+        }  catch (IOException | ParseException e) {
+            e.printStackTrace();
+        } catch (SpotifyWebApiException e) {
+            System.out.println("Error: something went wrong with the Spotify API. Please try again.");
+        }
+
+        if (topTracks != null) {
+            return new ArrayList<Track>(Arrays.asList(topTracks.getItems()));
+        }
+
+        return new ArrayList<Track>();
     }
 
     public static Track getTrackInfo(SpotifyApi spotifyApi, String trackID) {
@@ -140,9 +172,10 @@ public class QueryManager {
             e.printStackTrace();
         } catch (SpotifyWebApiException e) {
             System.out.println("Error with the Spotify API, please try again.");
+            return;
         }
 
-        System.out.println("response: " + response);
+        System.out.println("Success!");
 
     }
 }

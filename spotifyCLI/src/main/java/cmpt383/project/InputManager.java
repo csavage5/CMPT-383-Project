@@ -74,8 +74,6 @@ public class InputManager {
         return waitForValidInput(max);
     }
 
-
-
     public static int promptChoosePlaylistTrackAction(int max) {
 
         System.out.print("\nChoose option:\n" +
@@ -98,7 +96,7 @@ public class InputManager {
             System.out.println("1-" + max +
                     ") View songs in playlist\n" +
                     (max + 1) + ") Export this list of playlists to a CSV\n" +
-                    (max + 2) + ") Add a playlist to library");
+                    (max + 2) + ") Follow a playlist");
         }
 
         System.out.print("> ");

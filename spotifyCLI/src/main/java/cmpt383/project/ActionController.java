@@ -39,11 +39,11 @@ public class ActionController {
         }
     }
 
-    // (1) - 2
+    // (1) - 2 / (5) - 2
     public static void ViewPlaylistTracks(SpotifyApi spotifyApi, String playlistID) {
         ArrayList<PlaylistTrack> tracks = QueryManager.getPlaylistTracks(spotifyApi, playlistID);
 
-        OutputController.outputTrackList(spotifyApi, tracks);
+        OutputController.outputPlaylistTrackList(spotifyApi, tracks);
 
         // prompt user - return to main menu or export songs to CSV
         int index = InputManager.promptChoosePlaylistTrackAction(1);
@@ -56,6 +56,25 @@ public class ActionController {
             System.out.println("ERROR: unimplemented.");
         }
     }
+
+    // (2)
+    public static void ViewUserTopTracks(SpotifyApi spotifyApi) {
+        ArrayList<Track> tracks = QueryManager.getTopUserTracks(spotifyApi);
+
+        OutputController.outputTracks(tracks);
+
+        int input = InputManager.promptChoosePlaylistTrackAction(20);
+
+        if (input == 0) {
+            // CASE: return to main menu
+            return;
+        } else if (input == 1) {
+            // TODO CASE: write track list to CSV
+            System.out.println("ERROR: unimplemented.");
+        }
+    }
+
+    // TODO (3)
 
 
     // (4)
@@ -97,6 +116,6 @@ public class ActionController {
             QueryManager.followPlaylist(spotifyApi, playlists.get(index-1));
         }
     }
-    
+
 
 }

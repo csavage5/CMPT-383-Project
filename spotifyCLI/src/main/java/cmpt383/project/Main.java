@@ -8,6 +8,7 @@ import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.ParseException;
 
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URI;
 
@@ -85,7 +86,11 @@ public class Main {
 
         // retrieve authorization and refresh tokens using code in response
         //AuthenticationManager authManager = new AuthenticationManager();
-        QueryManager.authManager.getInitialCredentials(spotifyApi, response);
+//        while (!QueryManager.authManager.getInitialCredentials(spotifyApi, response)) {
+//
+//        }
+
+        QueryManager.getTokens(spotifyApi, response);
 
         // start main menu
         while (true) {
@@ -95,6 +100,8 @@ public class Main {
                     ActionController.ViewUserPlaylistList(spotifyApi);
                     break;
                 case 2:
+                    ActionController.ViewUserTopTracks(spotifyApi);
+                    break;
                 case 3:
                 case 4:
                     ActionController.ViewUserProfile(spotifyApi);
