@@ -19,10 +19,12 @@ public class Main {
         SpotifyApi.Builder spotifyApiBuilder = new SpotifyApi.Builder();
         spotifyApiBuilder.setClientId(AuthenticationManager.CLIENT_ID);
         spotifyApiBuilder.setClientSecret(AuthenticationManager.CLIENT_SECRET);
-        // tells Spotify to send the code to the Python Flask web server
+
+        // tell Spotify to send the code to the Python Flask web server
         spotifyApiBuilder.setRedirectUri(SpotifyHttpManager.makeUri("http://localhost:8888/callback"));
         SpotifyApi spotifyApi = spotifyApiBuilder.build();
 
+        // request permissions
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri().scope(
                 "user-top-read " +
                 "user-read-recently-played " +
@@ -41,11 +43,11 @@ public class Main {
         URI uri = authorizationCodeUriRequest.execute();
         System.out.println(uri);
 
+
         // TODO attempt to open the web browser
 
-        // wait for user to confirm their verification
-        InputManager inputManager = new InputManager();
-        inputManager.waitForUserInteraction("Press Enter/Return when spotifyCLI has been granted access to a Spotify account. > ");
+        // wait for user to confirm they've granted access to their account
+        InputManager.waitForUserInteraction("Press Enter/Return when spotifyCLI has been granted access to a Spotify account. > ");
 
         // TODO check value of response from server - accepted (code) or denied ("access_denied")
         SpotifyHttpManager http = new SpotifyHttpManager.Builder().build();
@@ -82,8 +84,8 @@ public class Main {
 
 
         // retrieve authorization and refresh tokens using code in response
-        AuthenticationManager authManager = new AuthenticationManager(response);
-        authManager.getInitialCredentials(spotifyApi);
+        //AuthenticationManager authManager = new AuthenticationManager();
+        QueryManager.authManager.getInitialCredentials(spotifyApi, response);
 
         // start main menu
         while (true) {
@@ -98,6 +100,8 @@ public class Main {
                     ActionController.ViewUserProfile(spotifyApi);
                     break;
                 case 5:
+                    ActionController.ViewTopSpotifyPlaylistList(spotifyApi);
+                    break;
                 case 6:
                     System.out.println("Exiting program...");
                     return;

@@ -58,25 +58,74 @@ public class InputManager {
                 " > ");
     }
 
-    public void displayPlaylistList(Paging<PlaylistSimplified> playlistList) {
-        int playlistCount = playlistList.getTotal();
-
-
-    }
-
     public static int promptChoosePlaylistAction(int max) {
-        int index = 0;
+
         System.out.print("\nChoose option:\n" +
                 "0) Return to main menu\n");
 
         if (max > 0) {
             System.out.println("1-" + max +
                     ") View songs in playlist\n" +
-                    (max+1) + ") Export this list of playlists to a CSV\n");
+                    (max + 1) + ") Export this list of playlists to a CSV");
         }
 
         System.out.print("> ");
 
+        return waitForValidInput(max);
+    }
+
+
+
+    public static int promptChoosePlaylistTrackAction(int max) {
+
+        System.out.print("\nChoose option:\n" +
+                "0) Return to main menu\n" +
+                "1) Write tracks to CSV\n");
+
+        System.out.print("> ");
+
+        return waitForValidInput(max);
+    }
+
+
+    // (5)
+    public static int promptChooseTopPlaylistAction(int max) {
+
+        System.out.print("\nChoose option:\n" +
+                "0) Return to main menu\n");
+
+        if (max > 0) {
+            System.out.println("1-" + max +
+                    ") View songs in playlist\n" +
+                    (max + 1) + ") Export this list of playlists to a CSV\n" +
+                    (max + 2) + ") Add a playlist to library");
+        }
+
+        System.out.print("> ");
+
+        return waitForValidInput(max + 2);
+    }
+
+    public static int promptChoosePlaylistToFollow(int max) {
+        System.out.print("\nChoose option:\n" +
+                "0) Return to main menu\n");
+
+        if (max > 0) {
+            System.out.println("1-" + max + ") Follow playlist\n");
+        }
+
+        System.out.print("> ");
+
+        return waitForValidInput(max);
+    }
+
+    /**
+     * Return a valid input > 0
+     * @param max the largest integer the input can be
+     * @return a valid input
+     */
+    public static int waitForValidInput(int max) {
+        int index = 0;
         while (true) {
             index = InputManager.getInputAsInt();
 

@@ -5,6 +5,7 @@ import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.special.FeaturedPlaylists;
 import com.wrapper.spotify.model_objects.specification.*;
 import com.wrapper.spotify.requests.data.browse.GetListOfFeaturedPlaylistsRequest;
+import com.wrapper.spotify.requests.data.follow.legacy.FollowPlaylistRequest;
 import com.wrapper.spotify.requests.data.playlists.GetListOfCurrentUsersPlaylistsRequest;
 import com.wrapper.spotify.requests.data.playlists.GetPlaylistRequest;
 import com.wrapper.spotify.requests.data.tracks.GetTrackRequest;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class QueryManager {
+
+    public static AuthenticationManager authManager = new AuthenticationManager();
 
     public QueryManager() {
 
@@ -30,7 +33,8 @@ public class QueryManager {
      * error is encountered
      */
     public static ArrayList<PlaylistSimplified> getPlaylistList(SpotifyApi spotifyApi) {
-        AuthenticationManager.refreshCredentials(spotifyApi);
+        authManager.refreshCredentials(spotifyApi);
+
         GetListOfCurrentUsersPlaylistsRequest getListOfCurrentUsersPlaylistsRequest = spotifyApi
                 .getListOfCurrentUsersPlaylists()
                 .build();
@@ -47,6 +51,8 @@ public class QueryManager {
     }
 
     public static ArrayList<PlaylistSimplified> getTopSpotifyPlaylistList(SpotifyApi spotifyApi) {
+        authManager.refreshCredentials(spotifyApi);
+
         GetListOfFeaturedPlaylistsRequest getListOfFeaturedPlaylistsRequest = spotifyApi.getListOfFeaturedPlaylists().build();
 
         Paging<PlaylistSimplified> featuredPlaylists = null;
@@ -67,6 +73,8 @@ public class QueryManager {
     }
 
     public static ArrayList<PlaylistTrack> getPlaylistTracks(SpotifyApi spotifyApi, String playlistID) {
+        authManager.refreshCredentials(spotifyApi);
+
         GetPlaylistRequest playlistRequest = spotifyApi.getPlaylist(playlistID).build();
 
         Playlist playlist = null;
@@ -84,6 +92,8 @@ public class QueryManager {
     }
 
     public static Track getTrackInfo(SpotifyApi spotifyApi, String trackID) {
+        authManager.refreshCredentials(spotifyApi);
+
         GetTrackRequest getTrackRequest = spotifyApi.getTrack(trackID).build();
 
         Track track = null;
@@ -100,6 +110,8 @@ public class QueryManager {
     }
 
     public static User getUserInfo(SpotifyApi spotifyApi) {
+        authManager.refreshCredentials(spotifyApi);
+
         GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
         User user = null;
         try {
@@ -113,4 +125,24 @@ public class QueryManager {
         return user;
     }
 
+    public static void followPlaylist(SpotifyApi spotifyApi, PlaylistSimplified playlist) {
+        authManager.refreshCredentials(spotifyApi);
+
+        FollowPlaylistRequest followPlaylistRequest = spotifyApi.followPlaylist(
+                                                        playlist.getOwner().getId(),
+                                                        playlist.getId(),
+                                                        true).build();
+
+        String response = "";
+        try {
+            response = followPlaylistRequest.execute();
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        } catch (SpotifyWebApiException e) {
+            System.out.println("Error with the Spotify API, please try again.");
+        }
+
+        System.out.println("response: " + response);
+
+    }
 }
