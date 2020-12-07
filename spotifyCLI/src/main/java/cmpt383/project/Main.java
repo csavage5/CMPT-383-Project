@@ -3,8 +3,6 @@ package cmpt383.project;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.SpotifyHttpManager;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
-import com.wrapper.spotify.model_objects.specification.Paging;
-import com.wrapper.spotify.model_objects.specification.PlaylistSimplified;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.ParseException;
@@ -12,7 +10,6 @@ import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.Arrays;
 
 public class Main {
 
@@ -22,6 +19,7 @@ public class Main {
         SpotifyApi.Builder spotifyApiBuilder = new SpotifyApi.Builder();
         spotifyApiBuilder.setClientId(AuthenticationManager.CLIENT_ID);
         spotifyApiBuilder.setClientSecret(AuthenticationManager.CLIENT_SECRET);
+        // tells Spotify to send the code to the Python Flask web server
         spotifyApiBuilder.setRedirectUri(SpotifyHttpManager.makeUri("http://localhost:8888/callback"));
         SpotifyApi spotifyApi = spotifyApiBuilder.build();
 
@@ -53,6 +51,7 @@ public class Main {
         SpotifyHttpManager http = new SpotifyHttpManager.Builder().build();
         String response = "";
         try {
+            // retrieve code caught by Python Flask web server
             response = http.get(SpotifyHttpManager.makeUri("http://localhost:8888/getcode"), new Header[0]);
             System.out.println("response: " + response);
         } catch (IOException e) {
@@ -91,12 +90,12 @@ public class Main {
             InputManager.displayMainMenu();
             switch(InputManager.getInputAsInt()) {
                 case 1:
-                    ActionController.EnterPlaylistMenu(spotifyApi);
+                    ActionController.ViewUserPlaylistList(spotifyApi);
                     break;
                 case 2:
                 case 3:
                 case 4:
-                    ActionController.EnterUserProfileMenu(spotifyApi);
+                    ActionController.ViewUserProfile(spotifyApi);
                     break;
                 case 5:
                 case 6:

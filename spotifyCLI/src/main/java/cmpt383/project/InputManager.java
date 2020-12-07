@@ -6,6 +6,7 @@ import com.wrapper.spotify.model_objects.specification.Paging;
 
 import java.awt.print.Pageable;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class InputManager {
@@ -20,7 +21,12 @@ public class InputManager {
      * @return integer if successful, -1 if input was invalid
      */
     public static int getInputAsInt() {
-        String input = scanner.nextLine();
+        String input = "";
+        try {
+            input = scanner.nextLine();
+        } catch (NoSuchElementException e) {
+
+        }
 
         int ret = -1;
         try {
@@ -32,7 +38,7 @@ public class InputManager {
         return ret;
     }
 
-    public void waitForUserInteraction(String message) {
+    public static void waitForUserInteraction(String message) {
         System.out.print(message);
         scanner.nextLine();
     }
@@ -58,7 +64,7 @@ public class InputManager {
 
     }
 
-    public static int displayPlaylistTracks(int max) {
+    public static int promptChoosePlaylistAction(int max) {
         int index = 0;
         System.out.print("\nChoose option:\n" +
                 "0) Return to main menu\n");
@@ -80,8 +86,8 @@ public class InputManager {
                 return index;
             } else if (index == max + 1) {
                 return index;
-            } else if (index < 0) {
-                System.out.println("Error: invalid input, try again\n > ");
+            } else {
+                System.out.print("Error: invalid input, try again\n> ");
             }
         }
     }

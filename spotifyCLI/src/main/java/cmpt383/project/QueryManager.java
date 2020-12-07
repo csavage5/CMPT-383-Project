@@ -7,6 +7,7 @@ import com.wrapper.spotify.model_objects.specification.*;
 import com.wrapper.spotify.requests.data.browse.GetListOfFeaturedPlaylistsRequest;
 import com.wrapper.spotify.requests.data.playlists.GetListOfCurrentUsersPlaylistsRequest;
 import com.wrapper.spotify.requests.data.playlists.GetPlaylistRequest;
+import com.wrapper.spotify.requests.data.tracks.GetTrackRequest;
 import com.wrapper.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 import org.apache.hc.core5.http.ParseException;
 
@@ -80,6 +81,22 @@ public class QueryManager {
 
         return new ArrayList<PlaylistTrack>(Arrays.asList( playlist.getTracks().getItems() ));
 
+    }
+
+    public static Track getTrackInfo(SpotifyApi spotifyApi, String trackID) {
+        GetTrackRequest getTrackRequest = spotifyApi.getTrack(trackID).build();
+
+        Track track = null;
+
+        try {
+            track = getTrackRequest.execute();
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        } catch (SpotifyWebApiException e) {
+            System.out.println("Error with the Spotify API, please try again.");
+        }
+
+        return track;
     }
 
     public static User getUserInfo(SpotifyApi spotifyApi) {
