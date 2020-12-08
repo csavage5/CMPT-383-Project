@@ -58,6 +58,7 @@ public class InputManager {
                 " > ");
     }
 
+    // (1)
     public static int promptChoosePlaylistAction(int max) {
 
         System.out.print("\nChoose option:\n" +
@@ -74,6 +75,7 @@ public class InputManager {
         return waitForValidInput(max);
     }
 
+    // (1), (2)
     public static int promptChoosePlaylistTrackAction(int max) {
 
         System.out.print("\nChoose option:\n" +
@@ -85,6 +87,16 @@ public class InputManager {
         return waitForValidInput(max);
     }
 
+    // (3)
+    public static int promptChooseArtistListOption(int max) {
+        System.out.print("\nChoose option:\n" +
+                "0) Return to main menu\n" +
+                "1) Write artists to CSV\n");
+
+        System.out.print("> ");
+
+        return waitForValidInput(max);
+    }
 
     // (5)
     public static int promptChooseTopPlaylistAction(int max) {
@@ -104,6 +116,7 @@ public class InputManager {
         return waitForValidInput(max + 2);
     }
 
+    //(5)
     public static int promptChoosePlaylistToFollow(int max) {
         System.out.print("\nChoose option:\n" +
                 "0) Return to main menu\n");

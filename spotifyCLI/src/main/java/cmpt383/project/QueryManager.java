@@ -6,6 +6,7 @@ import com.wrapper.spotify.model_objects.special.FeaturedPlaylists;
 import com.wrapper.spotify.model_objects.specification.*;
 import com.wrapper.spotify.requests.data.browse.GetListOfFeaturedPlaylistsRequest;
 import com.wrapper.spotify.requests.data.follow.legacy.FollowPlaylistRequest;
+import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import com.wrapper.spotify.requests.data.playlists.GetListOfCurrentUsersPlaylistsRequest;
 import com.wrapper.spotify.requests.data.playlists.GetPlaylistRequest;
@@ -25,6 +26,12 @@ public class QueryManager {
 
     }
 
+    /**
+     * Retrieves initial refresh and access tokens from Spotify using the code given to the web server
+     * when the user grants access. Saves tokens in spotifyApi.
+     * @param spotifyApi
+     * @param userCode
+     */
     public static void getTokens(SpotifyApi spotifyApi, String userCode) {
         authManager.getInitialCredentials(spotifyApi, userCode);
     }
@@ -58,7 +65,7 @@ public class QueryManager {
     public static ArrayList<PlaylistSimplified> getTopSpotifyPlaylistList(SpotifyApi spotifyApi) {
         authManager.refreshCredentials(spotifyApi);
 
-        GetListOfFeaturedPlaylistsRequest getListOfFeaturedPlaylistsRequest = spotifyApi.getListOfFeaturedPlaylists().build();
+        GetListOfFeaturedPlaylistsRequest getListOfFeaturedPlaylistsRequest = spotifyApi.getListOfFeaturedPlaylists().limit(50).build();
 
         Paging<PlaylistSimplified> featuredPlaylists = null;
         try {
@@ -104,7 +111,7 @@ public class QueryManager {
     public static ArrayList<Track> getTopUserTracks(SpotifyApi spotifyApi) {
         authManager.refreshCredentials(spotifyApi);
 
-        GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi.getUsersTopTracks().build();
+        GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi.getUsersTopTracks().limit(50).build();
 
         Paging<Track> topTracks = null;
 
@@ -121,6 +128,28 @@ public class QueryManager {
         }
 
         return new ArrayList<Track>();
+    }
+
+    public static ArrayList<Artist> getTopUserArtists(SpotifyApi spotifyApi) {
+        authManager.refreshCredentials(spotifyApi);
+
+        GetUsersTopArtistsRequest getUsersTopArtistsRequest = spotifyApi.getUsersTopArtists().limit(50).build();
+
+        Paging<Artist> topArtists = null;
+
+        try {
+           topArtists = getUsersTopArtistsRequest.execute();
+        }  catch (IOException | ParseException e) {
+            e.printStackTrace();
+        } catch (SpotifyWebApiException e) {
+            System.out.println("Error: something went wrong with the Spotify API. Please try again.");
+        }
+
+        if (topArtists != null) {
+            return new ArrayList<Artist>(Arrays.asList(topArtists.getItems()));
+        }
+
+        return new ArrayList<Artist>();
     }
 
     public static Track getTrackInfo(SpotifyApi spotifyApi, String trackID) {

@@ -103,6 +103,8 @@ public class Main {
                     ActionController.ViewUserTopTracks(spotifyApi);
                     break;
                 case 3:
+                    ActionController.ViewTopUserArtists(spotifyApi);
+                    break;
                 case 4:
                     ActionController.ViewUserProfile(spotifyApi);
                     break;

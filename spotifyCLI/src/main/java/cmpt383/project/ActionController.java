@@ -74,8 +74,22 @@ public class ActionController {
         }
     }
 
-    // TODO (3)
+    // (3)
+    public static void ViewTopUserArtists(SpotifyApi spotifyApi) {
+        ArrayList<Artist> artists = QueryManager.getTopUserArtists(spotifyApi);
 
+        OutputController.outputArtists(artists);
+
+        int input = InputManager.promptChooseArtistListOption(1);
+
+        if (input == 0) {
+            // CASE: return to main menu
+            return;
+        } else if (input == 1) {
+            // TODO CASE: write artist list to CSV
+            System.out.println("ERROR: unimplemented.");
+        }
+    }
 
     // (4)
     public static void ViewUserProfile(SpotifyApi spotifyApi) {
