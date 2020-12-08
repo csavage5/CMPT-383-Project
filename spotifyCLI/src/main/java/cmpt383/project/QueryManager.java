@@ -2,8 +2,11 @@ package cmpt383.project;
 
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
+import com.wrapper.spotify.model_objects.AbstractModelObject;
+import com.wrapper.spotify.model_objects.IModelObject;
 import com.wrapper.spotify.model_objects.special.FeaturedPlaylists;
 import com.wrapper.spotify.model_objects.specification.*;
+import com.wrapper.spotify.requests.AbstractRequest;
 import com.wrapper.spotify.requests.data.browse.GetListOfFeaturedPlaylistsRequest;
 import com.wrapper.spotify.requests.data.follow.legacy.FollowPlaylistRequest;
 import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
@@ -90,25 +93,38 @@ public class QueryManager {
     public static ArrayList<PlaylistTrack> getPlaylistTracks(SpotifyApi spotifyApi, String playlistID) {
         authManager.refreshCredentials(spotifyApi);
 
-        GetPlaylistsItemsRequest playlistItemsRequest = spotifyApi.getPlaylistsItems(playlistID)
-                                                            .additionalTypes("track")
-                                                            //.fields("")
-                                                            .build();
+        GetPlaylistsItemsRequest playlistItemsRequest = null;
         Paging<PlaylistTrack> playlist = null;
+        ArrayList<PlaylistTrack> items = new ArrayList<PlaylistTrack>();
+        int offset = 0;
 
-        try {
-           playlist = playlistItemsRequest.execute();
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        } catch (SpotifyWebApiException e) {
-            System.out.println("Error with the Spotify API, please try again.");
-        }
+        do {
+            playlistItemsRequest = spotifyApi.getPlaylistsItems(playlistID)
+                    .additionalTypes("track")
+                    .offset(offset)
+                    .build();
 
-        if (playlist != null) {
-            return new ArrayList<PlaylistTrack>(Arrays.asList(playlist.getItems()));
-        }
+            try {
+                playlist = playlistItemsRequest.execute();
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            } catch (SpotifyWebApiException e) {
+                System.out.println("Error with the Spotify API, please try again.");
+            }
 
-        return new ArrayList<PlaylistTrack>();
+            if (playlist != null) {
+                items.addAll(Arrays.asList(playlist.getItems()));
+            }
+
+            if (offset == 0) {
+                offset = 101;
+            } else {
+                offset += 100;
+            }
+
+        } while(playlist.getNext() != null);
+
+        return items;
 
     }
 

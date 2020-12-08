@@ -58,7 +58,6 @@ public class ActionController {
                 continue;
             }
 
-            //track = QueryManager.getTrackInfo(spotifyApi, pTrack.getTrack().getId());
             track = (Track) pTrack.getTrack();
             tracks.add(track);
         }
