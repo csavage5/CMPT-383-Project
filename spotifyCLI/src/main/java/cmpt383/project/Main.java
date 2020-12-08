@@ -9,6 +9,7 @@ import org.apache.hc.core5.http.ParseException;
 
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 
@@ -42,13 +43,30 @@ public class Main {
                 "playlist-read-collaborative").build();
 
         URI uri = authorizationCodeUriRequest.execute();
-        System.out.println(uri);
-
 
         // TODO attempt to open the web browser
+        System.out.println("Attempting to launch web browser...");
+        // check for OS, open web browser accordingly
+        try {
+            // from https://stackoverflow.com/questions/5226212/how-to-open-the-default-webbrowser-using-java
+            if (Desktop.isDesktopSupported()) {
+                // OS that supports Java Desktop API
+                Desktop.getDesktop().browse(uri);
+            } else {
+                // attempt to open on an OS that doesn't
+                Runtime runtime = Runtime.getRuntime();
+                runtime.exec("xdg-open " + uri);
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to open web browser.");
+        }
+
+        System.out.println("If your web browser didn't launch automatically, " +
+                           "please copy and paste this link into your browser:");
+        System.out.println(uri);
 
         // wait for user to confirm they've granted access to their account
-        InputManager.waitForUserInteraction("Press Enter/Return when spotifyCLI has been granted access to a Spotify account. > ");
+        InputManager.waitForUserInteraction("\nPress Enter/Return when spotifyCLI has been granted access to a Spotify account. > ");
 
         // TODO check value of response from server - accepted (code) or denied ("access_denied")
         SpotifyHttpManager http = new SpotifyHttpManager.Builder().build();
