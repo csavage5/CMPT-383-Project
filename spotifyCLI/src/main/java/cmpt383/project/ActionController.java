@@ -1,6 +1,8 @@
 package cmpt383.project;
 
 import com.wrapper.spotify.SpotifyApi;
+import com.wrapper.spotify.enums.ModelObjectType;
+import com.wrapper.spotify.model_objects.IPlaylistItem;
 import com.wrapper.spotify.model_objects.specification.*;
 
 import java.util.ArrayList;
@@ -50,14 +52,14 @@ public class ActionController {
         System.out.println("Retrieving extended track information for playlist...");
         Track track;
         for (PlaylistTrack pTrack : pTracks) {
-            // query more info about each pTrack
-            if (pTrack.getIsLocal()) {
-                // CASE: track is a local file - cannot query more information
-                localTracks.add(pTrack);
+            // get track information
+            if (pTrack.getTrack().getType() == ModelObjectType.EPISODE) {
+                // do not support podcast episodes, only TRACKS
                 continue;
             }
 
-            track = QueryManager.getTrackInfo(spotifyApi, pTrack.getTrack().getId());
+            //track = QueryManager.getTrackInfo(spotifyApi, pTrack.getTrack().getId());
+            track = (Track) pTrack.getTrack();
             tracks.add(track);
         }
 

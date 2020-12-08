@@ -38,7 +38,7 @@ public class OutputController {
         int index = 1;
         for (Track track : tracks) {
             //TODO deal with tracks that have multiple artists
-            System.out.printf("%6s %-60s",
+            System.out.printf(TRACK_HEADER,
                     index + ") ",
                     track.getName(),
                     track.getArtists()[0].getName(),
@@ -51,7 +51,7 @@ public class OutputController {
         }
 
         for (PlaylistTrack localTrack : localTracks) {
-            System.out.printf(TRACK_HEADER,
+            System.out.printf("6s %-60s",
                     index + ") ",
                     localTrack.getTrack().getName() + " [LOCAL TRACK - CANNOT QUERY MORE INFO]");
         }

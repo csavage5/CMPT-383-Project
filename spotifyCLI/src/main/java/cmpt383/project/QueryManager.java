@@ -10,6 +10,8 @@ import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopA
 import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import com.wrapper.spotify.requests.data.playlists.GetListOfCurrentUsersPlaylistsRequest;
 import com.wrapper.spotify.requests.data.playlists.GetPlaylistRequest;
+import com.wrapper.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
+import com.wrapper.spotify.requests.data.tracks.GetSeveralTracksRequest;
 import com.wrapper.spotify.requests.data.tracks.GetTrackRequest;
 import com.wrapper.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 import org.apache.hc.core5.http.ParseException;
@@ -88,12 +90,14 @@ public class QueryManager {
     public static ArrayList<PlaylistTrack> getPlaylistTracks(SpotifyApi spotifyApi, String playlistID) {
         authManager.refreshCredentials(spotifyApi);
 
-        GetPlaylistRequest playlistRequest = spotifyApi.getPlaylist(playlistID).build();
-        //spotifyApi.getPlaylistsItems(playlistID);
-        Playlist playlist = null;
+        GetPlaylistsItemsRequest playlistItemsRequest = spotifyApi.getPlaylistsItems(playlistID)
+                                                            .additionalTypes("track")
+                                                            //.fields("")
+                                                            .build();
+        Paging<PlaylistTrack> playlist = null;
 
         try {
-           playlist = playlistRequest.execute();
+           playlist = playlistItemsRequest.execute();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         } catch (SpotifyWebApiException e) {
@@ -101,7 +105,7 @@ public class QueryManager {
         }
 
         if (playlist != null) {
-            return new ArrayList<PlaylistTrack>(Arrays.asList( playlist.getTracks().getItems() ));
+            return new ArrayList<PlaylistTrack>(Arrays.asList(playlist.getItems()));
         }
 
         return new ArrayList<PlaylistTrack>();
