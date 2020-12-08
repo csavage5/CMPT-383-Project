@@ -41,9 +41,28 @@ public class ActionController {
 
     // (1) - 2 / (5) - 2
     public static void ViewPlaylistTracks(SpotifyApi spotifyApi, String playlistID) {
-        ArrayList<PlaylistTrack> tracks = QueryManager.getPlaylistTracks(spotifyApi, playlistID);
+        ArrayList<PlaylistTrack> pTracks = QueryManager.getPlaylistTracks(spotifyApi, playlistID);
 
-        OutputController.outputPlaylistTrackList(spotifyApi, tracks);
+        ArrayList<Track> tracks = new ArrayList<>();
+        ArrayList<PlaylistTrack> localTracks = new ArrayList<>();
+
+        // retrieve extended track information
+        System.out.println("Retrieving extended track information for playlist...");
+        Track track;
+        for (PlaylistTrack pTrack : pTracks) {
+            // query more info about each pTrack
+            if (pTrack.getIsLocal()) {
+                // CASE: track is a local file - cannot query more information
+                localTracks.add(pTrack);
+                continue;
+            }
+
+            track = QueryManager.getTrackInfo(spotifyApi, pTrack.getTrack().getId());
+            tracks.add(track);
+        }
+
+        // print out tracks
+        OutputController.outputTracks(tracks, localTracks);
 
         // prompt user - return to main menu or export songs to CSV
         int index = InputManager.promptChoosePlaylistTrackAction(1);
@@ -61,9 +80,9 @@ public class ActionController {
     public static void ViewUserTopTracks(SpotifyApi spotifyApi) {
         ArrayList<Track> tracks = QueryManager.getTopUserTracks(spotifyApi);
 
-        OutputController.outputTracks(tracks);
+        OutputController.outputTracks(tracks, new ArrayList<>());
 
-        int input = InputManager.promptChoosePlaylistTrackAction(20);
+        int input = InputManager.promptChoosePlaylistTrackAction(1);
 
         if (input == 0) {
             // CASE: return to main menu
@@ -75,7 +94,7 @@ public class ActionController {
     }
 
     // (3)
-    public static void ViewTopUserArtists(SpotifyApi spotifyApi) {
+    public static void ViewUserTopArtists(SpotifyApi spotifyApi) {
         ArrayList<Artist> artists = QueryManager.getTopUserArtists(spotifyApi);
 
         OutputController.outputArtists(artists);

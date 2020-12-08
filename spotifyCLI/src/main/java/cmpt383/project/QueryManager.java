@@ -89,7 +89,7 @@ public class QueryManager {
         authManager.refreshCredentials(spotifyApi);
 
         GetPlaylistRequest playlistRequest = spotifyApi.getPlaylist(playlistID).build();
-
+        //spotifyApi.getPlaylistsItems(playlistID);
         Playlist playlist = null;
 
         try {

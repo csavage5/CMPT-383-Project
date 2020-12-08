@@ -8,7 +8,6 @@ import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.ParseException;
 
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
@@ -44,9 +43,8 @@ public class Main {
 
         URI uri = authorizationCodeUriRequest.execute();
 
-        // TODO attempt to open the web browser
+        // attempt to open the web browser
         System.out.println("Attempting to launch web browser...");
-        // check for OS, open web browser accordingly
         try {
             // from https://stackoverflow.com/questions/5226212/how-to-open-the-default-webbrowser-using-java
             if (Desktop.isDesktopSupported()) {
@@ -102,12 +100,6 @@ public class Main {
         }
 
 
-        // retrieve authorization and refresh tokens using code in response
-        //AuthenticationManager authManager = new AuthenticationManager();
-//        while (!QueryManager.authManager.getInitialCredentials(spotifyApi, response)) {
-//
-//        }
-
         QueryManager.getTokens(spotifyApi, response);
 
         // start main menu
@@ -121,7 +113,7 @@ public class Main {
                     ActionController.ViewUserTopTracks(spotifyApi);
                     break;
                 case 3:
-                    ActionController.ViewTopUserArtists(spotifyApi);
+                    ActionController.ViewUserTopArtists(spotifyApi);
                     break;
                 case 4:
                     ActionController.ViewUserProfile(spotifyApi);

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class OutputController {
 
-    public static String PLAYLIST_HEADER = "%-6s %-55s %-7s %-25s %-12s %-22s\n";
+    public static String PLAYLIST_HEADER = "%6s %-55s %-7s %-25s %-12s %-22s\n";
     public static String TRACK_HEADER = "%6s %-60s %-25s %-50s %-13s %-12s %-22s\n";
     public static String ARTIST_HEADER = "%6s %-25s %-12s %-12s %-22s\n";
 
@@ -33,44 +33,12 @@ public class OutputController {
         }
     }
 
-    public static void outputPlaylistTrackList(SpotifyApi spotifyApi, ArrayList<PlaylistTrack> tracks) {
-
-        System.out.printf("%-6s %-60s %-25s %-40s %-13s %-12s %-22s\n","Index", "Title","Artist", "Album", "Duration (s)", "Popularity", "SpotifyID");
-
-        int index = 1;
-        Track track;
-        for (PlaylistTrack pTrack : tracks) {
-            // query more info about each pTrack
-            if (pTrack.getIsLocal()) {
-                // CASE: track is a local file - cannot query more information
-                System.out.println(index + ") " +
-                        pTrack.getTrack().getName() + " [LOCAL TRACK - CANNOT QUERY MORE INFO]");
-                index += 1;
-                continue;
-            }
-
-            track = QueryManager.getTrackInfo(spotifyApi, pTrack.getTrack().getId());
-            //TODO deal with tracks that have multiple artists
-            System.out.printf("%-6s %-60s %-25s %-40s %-13s %-12s %-22s\n",
-                    index,
-                    track.getName(),
-                    track.getArtists()[0].getName(),
-                    track.getAlbum().getName(),
-                    track.getDurationMs()/1000,
-                    track.getPopularity(),
-                    track.getId());
-
-            index += 1;
-        }
-
-    }
-
-    public static void outputTracks(ArrayList<Track> tracks) {
+    public static void outputTracks(ArrayList<Track> tracks, ArrayList<PlaylistTrack> localTracks) {
         System.out.printf(TRACK_HEADER,"Index", "Title", "Artist", "Album", "Duration (s)", "Popularity", "SpotifyID");
         int index = 1;
         for (Track track : tracks) {
             //TODO deal with tracks that have multiple artists
-            System.out.printf(TRACK_HEADER,
+            System.out.printf("%6s %-60s",
                     index + ") ",
                     track.getName(),
                     track.getArtists()[0].getName(),
@@ -81,6 +49,13 @@ public class OutputController {
 
             index += 1;
         }
+
+        for (PlaylistTrack localTrack : localTracks) {
+            System.out.printf(TRACK_HEADER,
+                    index + ") ",
+                    localTrack.getTrack().getName() + " [LOCAL TRACK - CANNOT QUERY MORE INFO]");
+        }
+
     }
 
     public static void outputArtists(ArrayList<Artist> artists) {
