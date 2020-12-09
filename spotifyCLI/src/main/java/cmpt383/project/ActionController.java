@@ -37,7 +37,10 @@ public class ActionController {
             // CASE: user wants to view songs in specific playlist
             ViewPlaylistTracks(spotifyApi, playlists.get(index-1).getId());
         } else if (index == playlists.size() + 1) {
-            // TODO CASE: export list of playlists to CSV
+            // CASE: export list of playlists to CSV
+            JSONUtility.ConvertPlaylistsToJSON(playlists);
+            // TODO call JavaScript utility to convert to CSV
+
         }
     }
 
@@ -72,8 +75,12 @@ public class ActionController {
             // CASE: return to main menu
             return;
         } else if (index == 1) {
-            // TODO CASE: write track list to CSV
-            System.out.println("ERROR: unimplemented.");
+            // CASE: write track list to CSV
+
+            // write to JSON file
+            JSONUtility.ConvertTracksToJSON(tracks);
+
+            // TODO call JavaScript utility to convert to CSV
         }
     }
 
@@ -89,8 +96,10 @@ public class ActionController {
             // CASE: return to main menu
             return;
         } else if (input == 1) {
-            // TODO CASE: write track list to CSV
-            System.out.println("ERROR: unimplemented.");
+            // CASE: write track list to CSV
+            JSONUtility.ConvertTracksToJSON(tracks);
+            // TODO call JavaScript utility to convert to CSV
+
         }
     }
 
@@ -106,8 +115,10 @@ public class ActionController {
             // CASE: return to main menu
             return;
         } else if (input == 1) {
-            // TODO CASE: write artist list to CSV
-            System.out.println("ERROR: unimplemented.");
+            // CASE: write artist list to CSV
+            JSONUtility.ConvertArtistsToJSON(artists);
+            // TODO call JavaScript utility to convert to CSV
+
         }
     }
 
@@ -143,7 +154,10 @@ public class ActionController {
             // CASE: user wants to view songs in specific playlist
             ViewPlaylistTracks(spotifyApi, playlists.get(index-1).getId());
         } else if (index == playlists.size() + 1) {
-            // TODO CASE: export list of playlists to CSV
+            // CASE: export list of playlists to CSV
+            JSONUtility.ConvertPlaylistsToJSON(playlists);
+            // TODO call JavaScript utility to convert to CSV
+
         } else if (index == playlists.size() + 2) {
             // CASE: follow playlist publicly
             index = InputManager.promptChoosePlaylistToFollow(playlists.size());

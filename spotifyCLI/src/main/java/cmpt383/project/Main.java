@@ -7,10 +7,15 @@ import com.wrapper.spotify.requests.authorization.authorization_code.Authorizati
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.ParseException;
 
-
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
+
+
+// Code Citations
+//      SpotifyApi usage: https://github.com/thelinmichael/spotify-web-api-java/blob/master/README.md
+//      Spotify authentication flow: https://developer.spotify.com/documentation/general/guides/authorization-guide/#authorization-code-flow
+
 
 public class Main {
 
@@ -93,14 +98,27 @@ public class Main {
                 // CASE: user did not open authorization link, or did not interact with the page
                 System.out.println("Error: did not receive a new authorization code. Please try again.");
                 return;
-                //break;
 
             default :
                 break;
         }
 
+        int counter = 0;
+        while (!QueryManager.getTokens(spotifyApi, response) && counter < 5){
+            if (counter == 4) {
+                System.out.println("Error: something is wrong with the received code, please try again.");
+                return;
+            }
 
-        QueryManager.getTokens(spotifyApi, response);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            counter += 1;
+        }
+
+
 
         // start main menu
         while (true) {

@@ -37,8 +37,8 @@ public class QueryManager {
      * @param spotifyApi
      * @param userCode
      */
-    public static void getTokens(SpotifyApi spotifyApi, String userCode) {
-        authManager.getInitialCredentials(spotifyApi, userCode);
+    public static Boolean getTokens(SpotifyApi spotifyApi, String userCode) {
+        return authManager.getInitialCredentials(spotifyApi, userCode);
     }
 
     // ** Playlist Queries ** //
@@ -114,6 +114,8 @@ public class QueryManager {
 
             if (playlist != null) {
                 items.addAll(Arrays.asList(playlist.getItems()));
+            } else {
+                break;
             }
 
             if (offset == 0) {
