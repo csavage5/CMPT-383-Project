@@ -2,15 +2,34 @@ plugins {
     id 'java'
 }
 
-group 'cmpt383.final'
+group 'cmpt383'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
+jar {
+    manifest {
+        attributes(
+                //'Class-Path': configurations.compile.join(' '),
+                'Main-Class': 'cmpt383.Main'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+configurations {
+    // configuration that holds jars to include in the jar
+    extraLibs
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'se.michaelthelin.spotify:spotify-web-api-java:6.5.0'
-    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
+    //testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'se.michaelthelin.spotify:spotify-web-api-java:6.5.0'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 }
