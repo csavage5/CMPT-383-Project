@@ -11,14 +11,16 @@ RUN gradle build --no-daemon
 FROM openjdk:14
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/spotifyCLI.jar
 # from https://stackoverflow.com/questions/51121875/how-to-run-docker-with-python-and-java
-COPY --from=rocker/r-base:3.6.3 / /
-
 WORKDIR /app
-COPY ./spotifyCLI/CSVConverter.R /app
-COPY ./spotifyCLI/install_packages.R /app
+
+COPY --from=r-base:4.0.3 / /
+
+
+COPY ./spotifyCLI/CSVConverter.r /app
+COPY ./spotifyCLI/install_packages.r /app
 
 # from https://stackoverflow.com/questions/45289764/install-r-packages-using-docker-file
-RUN Rscript /app/install_packages.R
+RUN Rscript /app/install_packages.r
 
 
 

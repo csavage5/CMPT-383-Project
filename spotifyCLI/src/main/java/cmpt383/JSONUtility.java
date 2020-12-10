@@ -76,7 +76,7 @@ public class JSONUtility {
         }
 
         try {
-            Runtime.getRuntime().exec("Rscript /app/CSVConverter.R");
+            Runtime.getRuntime().exec("Rscript /app/CSVConverter.r");
         } catch (IOException e) {
             System.out.println();
         }
