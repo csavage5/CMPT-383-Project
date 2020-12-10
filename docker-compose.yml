@@ -3,6 +3,7 @@ services:
 
   flask_webserver:
     container_name: cmpt_383_project_flask_webserver
+    # network_mode: "host"
     build:
       context: .
       dockerfile: python.Dockerfile
@@ -11,10 +12,12 @@ services:
     container_name: cmpt_383_project_java_cli_client
     tty: true
     stdin_open: true
+    network_mode: "host"
     build:
       context: .
       dockerfile: java.Dockerfile
-     
+    # links:
+    #     - "flask_webserver"
 
 
 

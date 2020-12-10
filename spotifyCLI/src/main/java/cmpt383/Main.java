@@ -69,38 +69,42 @@ public class Main {
         System.out.println(uri);
 
         // wait for user to confirm they've granted access to their account
-        InputManager.waitForUserInteraction("\nPress Enter/Return when spotifyCLI has been granted access to a Spotify account. > ");
 
         // TODO check value of response from server - accepted (code) or denied ("access_denied")
         SpotifyHttpManager http = new SpotifyHttpManager.Builder().build();
         String response = "";
-        try {
-            // retrieve code caught by Python Flask web server
-            response = http.get(SpotifyHttpManager.makeUri("http://localhost:8888/getcode"), new Header[0]);
-            System.out.println("response: " + response);
-        } catch (IOException e) {
-            System.out.println("Error: can't reach local web server on port 8888.");
-        } catch (SpotifyWebApiException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
-        // TODO put in loop, repeat until user accepts
-        switch (response) {
-            case "access_denied":
-                // CASE: user did not authorize
-                System.out.println("Error: this application was not authorized with Spotify. Please try again.");
-                return;
-                //break;
+        while (response == "") {
+            InputManager.waitForUserInteraction("\nPress Enter/Return when spotifyCLI has been granted access to a Spotify account. > ");
 
-            case "":
-                // CASE: user did not open authorization link, or did not interact with the page
-                System.out.println("Error: did not receive a new authorization code from the web server. Please try again.");
-                return;
+            try {
+                // retrieve code caught by Python Flask web server
+                response = http.get(SpotifyHttpManager.makeUri("http://localhost:8888/getcode"), new Header[0]);
+                System.out.println("response: " + response);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Error: can't reach local web server on port 8888.");
+            } catch (SpotifyWebApiException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
-            default :
-                break;
+            switch (response) {
+                case "access_denied":
+                    // CASE: user did not authorize
+                    System.out.println("Error: this application was not authorized with Spotify. Please try again.");
+                    break;
+
+                case "":
+                    // CASE: user did not open authorization link, or did not interact with the page
+                    System.out.println("Error: did not receive a new authorization code from the web server. Please try again.");
+                    break;
+
+                default :
+                    break;
+            }
+
         }
 
         int counter = 0;
