@@ -6,16 +6,16 @@
     "spotifyID": "2cCUtGK9sDU2EoElnk0GNB"
   },
   {
-    "name": "Mac Quayle",
-    "followers": 19199,
-    "popularity": 52,
-    "spotifyID": "3HLApxqtvULlffnRnW88O8"
-  },
-  {
     "name": "The Strokes",
     "followers": 3470718,
     "popularity": 77,
     "spotifyID": "0epOFNiUfyON9EYx7Tpr6V"
+  },
+  {
+    "name": "Mac Quayle",
+    "followers": 19199,
+    "popularity": 52,
+    "spotifyID": "3HLApxqtvULlffnRnW88O8"
   },
   {
     "name": "Clinton Shorter",
@@ -54,6 +54,12 @@
     "spotifyID": "71jzN72g8qWMCMkWC5p1Z0"
   },
   {
+    "name": "Foo Fighters",
+    "followers": 8185832,
+    "popularity": 79,
+    "spotifyID": "7jy3rLJdDQY21OgRLCZ9sD"
+  },
+  {
     "name": "John Paesano",
     "followers": 17172,
     "popularity": 59,
@@ -64,12 +70,6 @@
     "followers": 9822,
     "popularity": 46,
     "spotifyID": "1WMefLQmpHuCUcDfMcavIo"
-  },
-  {
-    "name": "Foo Fighters",
-    "followers": 8185832,
-    "popularity": 79,
-    "spotifyID": "7jy3rLJdDQY21OgRLCZ9sD"
   },
   {
     "name": "Alvvays",
@@ -126,16 +126,16 @@
     "spotifyID": "4LEiUm1SRbFMgfqnQTwUbQ"
   },
   {
-    "name": "Marcin Przybyłowicz",
-    "followers": 43437,
-    "popularity": 62,
-    "spotifyID": "07vycW8ICLf5hKb22PFWXw"
-  },
-  {
     "name": "Julien Baker",
     "followers": 206113,
     "popularity": 60,
     "spotifyID": "12zbUHbPHL5DGuJtiUfsip"
+  },
+  {
+    "name": "Marcin Przybyłowicz",
+    "followers": 43437,
+    "popularity": 62,
+    "spotifyID": "07vycW8ICLf5hKb22PFWXw"
   },
   {
     "name": "Phoebe Bridgers",
@@ -156,6 +156,12 @@
     "spotifyID": "27jRNjIvlUcGN7FBRDnqhp"
   },
   {
+    "name": "Vampire Weekend",
+    "followers": 1651517,
+    "popularity": 71,
+    "spotifyID": "5BvJzeQpmsdsFp4HGUYUEx"
+  },
+  {
     "name": "Cris Velasco",
     "followers": 4917,
     "popularity": 39,
@@ -166,12 +172,6 @@
     "followers": 16206,
     "popularity": 49,
     "spotifyID": "63OPPk7uHFdcpTuOFYpNfV"
-  },
-  {
-    "name": "Vampire Weekend",
-    "followers": 1651517,
-    "popularity": 71,
-    "spotifyID": "5BvJzeQpmsdsFp4HGUYUEx"
   },
   {
     "name": "Greg Edmonson",

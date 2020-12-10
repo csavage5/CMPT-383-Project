@@ -35,4 +35,4 @@ def getAccessCode():
     code["code"] = ""
     return accessCode
 
-app.run(host="localhost", port=8888)
+app.run(host="0.0.0.0", port=8888)

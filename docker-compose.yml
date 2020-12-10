@@ -2,14 +2,19 @@ version: "3"
 services:
 
   flask_webserver:
-   build:
-     context: .
-     dockerfile: python.Dockerfile
+    container_name: cmpt_383_project_flask_webserver
+    build:
+      context: .
+      dockerfile: python.Dockerfile
 
   spotify_cli_client:
-   build:
-     context: .
-     dockerfile: java.Dockerfile
+    container_name: cmpt_383_project_java_cli_client
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: java.Dockerfile
+     
 
 
 

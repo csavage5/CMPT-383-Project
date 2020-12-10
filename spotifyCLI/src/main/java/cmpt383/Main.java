@@ -79,7 +79,7 @@ public class Main {
             response = http.get(SpotifyHttpManager.makeUri("http://localhost:8888/getcode"), new Header[0]);
             System.out.println("response: " + response);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error: can't reach local web server on port 8888.");
         } catch (SpotifyWebApiException e) {
             e.printStackTrace();
         } catch (ParseException e) {

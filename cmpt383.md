@@ -6,23 +6,16 @@ Topic idea:
         - upload CSV into playlist
 
 Languages:
-    - Python for CSV manipulation
+    - Python for a Flask web server
+  
+    - Java for for CLI interface, writing to JSON, Spotify API interaction
 
-    - Java for for CLI interface, analysis on playlist content
-
-    - JavaScript for parsing JSON return objects from Spotify API
+    - R for converting JSON files to CSV files
 
 The two inter-language communication methods:
-    - Docker RPC - Python as server for Spotify API wrapper, Java as client
+    - REST API - Java sends an HTTP request to the Python Flask server to retrieve the Spotify API authentication code
 
-    - ScriptEngine - running Javascript from Java
+    - Java runtime execution: run the R script within the Java VM
+
 
 Deployment technology: Docker containers
-
-
-Other ideas:
-    Web: calculator
-        - Languages: 
-            - Javascipt for client-side website
-            - Python for REST API
-            - Java / C++ for calculations

@@ -16,6 +16,8 @@ jar {
                 'Main-Class': 'cmpt383.Main'
         )
     }
+
+    // from https://stackoverflow.com/questions/49278063/how-do-i-create-an-executable-fat-jar-with-gradle-with-implementation-dependenci
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
