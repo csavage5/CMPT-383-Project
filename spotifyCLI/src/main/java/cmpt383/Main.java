@@ -80,7 +80,7 @@ public class Main {
             try {
                 // retrieve code caught by Python Flask web server
                 response = http.get(SpotifyHttpManager.makeUri("http://localhost:8888/getcode"), new Header[0]);
-                System.out.println("response: " + response);
+                //System.out.println("response: " + response);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Error: can't reach local web server on port 8888.");
@@ -102,6 +102,7 @@ public class Main {
                     break;
 
                 default :
+                    System.out.println("Success: retrieved authentication code from the web server.\n");
                     break;
             }
 

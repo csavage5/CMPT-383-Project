@@ -7,6 +7,12 @@ app.config["DEBUG"] = True
 # Must be a dictionary, a String doesn't maintain state
 code = {}
 
+@app.route('/', methods=['GET'])
+def testPage():
+    return '''
+    <h1>Test page<h1>
+    '''
+
 @app.route('/callback', methods=['GET'])
 def spotifyRedirect():
 

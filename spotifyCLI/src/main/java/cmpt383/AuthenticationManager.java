@@ -38,7 +38,7 @@ public class AuthenticationManager {
      * @return
      */
     public Boolean getInitialCredentials(SpotifyApi spotifyApi, String userCode) {
-        System.out.println("User code: " + userCode);
+        //System.out.println("User code: " + userCode);
         AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(userCode).build();
         try {
             AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();

@@ -2,13 +2,15 @@ version: "3"
 services:
 
   flask_webserver:
-    container_name: cmpt_383_project_flask_webserver
+    container_name: flask_webserver
+    image: cmpt-383-project_flask_webserver
     build:
       context: .
       dockerfile: python.Dockerfile
 
   spotify_cli_client:
-    container_name: cmpt_383_project_java_cli_client
+    image: cmpt-383-project_spotify_cli_client
+    container_name: spotify_cli_client
     tty: true
     stdin_open: true
     network_mode: "host"
@@ -19,12 +21,8 @@ services:
     build:
       context: .
       dockerfile: java.Dockerfile
-    # links:
-    #     - "flask_webserver"
-
 
 
 # Startup commands: 
 #   docker-compose run --publish 8888:8888 --detach flask_webserver
 #   docker-compose run spotify_cli_client
-#   docker-compose run -v ./spotifyCLIOutput:/app/out spotify_cli_client
