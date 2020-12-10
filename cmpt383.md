@@ -14,7 +14,7 @@ Python: runs a Flask web server to capture the authentication code that Spotify 
 
 R: converts a JSON outputted by Java to a CSV.
 
-# Inter-language Communication
+## Inter-language Communication
 
 Java -> Python: called via an HTTP GET request to retrieve the Spotify authentication code
 
@@ -26,7 +26,7 @@ To build the project and download dependencies:
 
     docker compose build
 
-This project runs two containers: one is a Flask web server, and another is an interactive Java CLI. I couldn't get the docker-compose command to allow STDIN for the Java container, so starting up requires two docker-compose run commands:
+This project runs two containers: one is a Flask web server, and another is an interactive Java CLI. I couldn't get the "docker-compose up" command to allow STDIN for the Java container, so starting up requires two docker-compose run commands:
 
     docker-compose run --publish 8888:8888 --detach flask_webserver
 

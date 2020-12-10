@@ -14,7 +14,7 @@ Python: runs a Flask web server to capture the authentication code that Spotify 
 
 R: converts a JSON outputted by Java to a CSV.
 
-# Inter-language Communication
+## Inter-language Communication
 
 Java -> Python: called via an HTTP GET request to retrieve the Spotify authentication code
 
@@ -26,7 +26,7 @@ To build the project and download dependencies:
 
     docker compose build
 
-This project runs two containers: one is a Flask web server, and another is an interactive Java CLI. I couldn't get the docker-compose command to allow STDIN for the Java container, so starting up requires two docker-compose run commands:
+This project runs two containers: one is a Flask web server, and another is an interactive Java CLI. I couldn't get the "docker-compose up" command to allow STDIN for the Java container, so starting up requires two docker-compose run commands:
 
     docker-compose run --publish 8888:8888 --detach flask_webserver
 
@@ -65,3 +65,24 @@ The user can view information about their account:
 
 Now the user can select options to view information in these categories. The user can choose to write out the information they are presented with to a CSV file, which will be saved to the ./spotifyCLIOutput directory. Each time a new CSV is written out, it will overwrite any file with the name "spotifyCLI_output.csv", or create a new file if one doesn't exist.
 
+
+
+<!-- Topic idea:
+    - CLI Spotify client
+        - view playlist, track, other info
+        - download playlist info into CSV
+        - upload CSV into playlist
+
+Languages:
+    - Python for a Flask web server
+  
+    - Java for for CLI interface, writing to JSON, Spotify API interaction
+
+    - R for converting JSON files to CSV files
+
+The two inter-language communication methods:
+    - REST API - Java sends an HTTP request to the Python Flask server to retrieve the Spotify API authentication code
+    - Java runtime execution: run the R script within the Java VM
+
+
+Deployment technology: Docker containers -->
