@@ -36,6 +36,8 @@ The second command will send the user to an interactive Java CLI, where they wil
     username: cmpt383project@gmail.com
     password: demoAccount
 
+It will authenticate with whichever account is currently logged into Spotify on your web browser.
+
 In case Spotify wants extra verification when you log in, the linked email credentials:
 
     email:    cmpt383project@gmail.com
