@@ -28,8 +28,9 @@ To build the project and download dependencies:
 
 This project runs two containers: one is a Flask web server, and another is an interactive Java CLI. I couldn't get the docker-compose command to allow STDIN for the Java container, so starting up requires two docker-compose run commands:
 
-   docker-compose run --publish 8888:8888 --detach flask_webserver
-   docker-compose run spotify_cli_client
+    docker-compose run --publish 8888:8888 --detach flask_webserver
+
+    docker-compose run spotify_cli_client
 
 The second command will send the user to an interactive Java CLI, where they will be asked to copy a link into their web browser (the web browser won't launch when the Java application is run inside a Docker container). From here, the user can approve the app with a Spotify account. If the user doesn't have a Spotify account, I have made a demo account:
 
