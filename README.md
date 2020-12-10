@@ -63,7 +63,7 @@ The user can view information about their account:
     - Spotify's featured playlists
       - Can follow any listed featured playlist
 
-Now the user can select options to view information in these categories. The user can choose to write out the information they are presented with to a CSV file, which will be saved to the ./spotifyCLIOutput directory. Each time a new CSV is written out, it will overwrite any file with the name "spotifyCLI_output.csv", or create a new file if one doesn't exist. The CSV is written to the folder via a bind mount to the Docker container.
+The user can select options to view information in these categories. The user can choose to write out the information they are presented with to a CSV file, which will be saved to the ./spotifyCLIOutput directory. Each time a new CSV is written out, it will overwrite any file with the name "spotifyCLI_output.csv", or create a new file if one doesn't exist. The CSV is written to the folder via a bind mount to the Docker container.
 
 
 
