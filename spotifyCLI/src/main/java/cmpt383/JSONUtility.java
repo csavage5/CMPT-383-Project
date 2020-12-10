@@ -67,7 +67,7 @@ public class JSONUtility {
 
     private static void writeObjectsToJSONFile(Collection objects) {
         try {
-            FileWriter writer = new FileWriter("output.json");
+            FileWriter writer = new FileWriter("/app/out/output.json");
             gson.toJson(objects, writer);
             writer.flush();
             writer.close();
@@ -76,7 +76,7 @@ public class JSONUtility {
         }
 
         try {
-            Runtime.getRuntime().exec("Rscript CSVConverter.R");
+            Runtime.getRuntime().exec("Rscript /app/CSVConverter.R");
         } catch (IOException e) {
             System.out.println();
         }

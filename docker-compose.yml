@@ -21,3 +21,6 @@ services:
 
 
 
+# Startup commands: 
+#   docker-compose run --publish 8888:8888 --detach flask_webserver
+#   docker-compose run -v ./spotifyCLIOutput:/app/out spotify_cli_client
