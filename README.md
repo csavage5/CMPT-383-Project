@@ -58,13 +58,14 @@ The user must follow the Spotify authorization link each time the Java app is re
 
 ## Project Features
 
-The user can view information about their account:
-    - List of followed playlists
-      - List of tracks in each playlist
-    - Top songs the user listens to
-    - Top artists the user listens to
-    - Basic profile information
-    - Spotify's featured playlists
-      - Can follow any listed featured playlist
+The user can view information about their account:  
+  
+- List of followed playlists  
+  - List of tracks in each playlist  
+- Top songs the user listens to  
+- Top artists the user listens to  
+- Basic profile information  
+- Spotify's featured playlists  
+  - Can follow any listed featured playlist  
 
 The user can select options to view information in these categories. The user can choose to write out the information they are presented with to a CSV file, which will be saved to the ./spotifyCLIOutput directory. Each time a new CSV is written out, it will overwrite any file with the name "spotifyCLI_output.csv", or create a new file if one doesn't exist. The CSV is written to the folder via a bind mount to the Docker container.
