@@ -48,6 +48,8 @@ public class Main {
 
         URI uri = authorizationCodeUriRequest.execute();
 
+        System.out.println("Welcome to spotifyCLI!\n");
+
         // attempt to open the web browser
         System.out.println("Attempting to launch web browser...");
         try {
@@ -65,12 +67,11 @@ public class Main {
         }
 
         System.out.println("If your web browser didn't launch automatically, " +
-                           "please copy and paste this link into your browser:");
+                           "please copy and paste this link into your browser:\n");
         System.out.println(uri);
 
         // wait for user to confirm they've granted access to their account
 
-        // TODO check value of response from server - accepted (code) or denied ("access_denied")
         SpotifyHttpManager http = new SpotifyHttpManager.Builder().build();
         String response = "";
 
@@ -111,7 +112,7 @@ public class Main {
         int counter = 0;
         while (!QueryManager.getTokens(spotifyApi, response) && counter < 5){
             if (counter == 4) {
-                System.out.println("Error: something is wrong with the received code, please re-launch program and try again.");
+                System.out.println("Error: cannot retrieve access and refresh tokens from Spotify. Please restart the program.");
                 return;
             }
 
@@ -123,7 +124,7 @@ public class Main {
             counter += 1;
         }
 
-
+        System.out.println("Success: retrieved access and refresh tokens from Spotify.");
 
         // start main menu
         while (true) {

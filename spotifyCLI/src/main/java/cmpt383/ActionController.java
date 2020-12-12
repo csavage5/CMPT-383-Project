@@ -38,8 +38,6 @@ public class ActionController {
         } else if (index == playlists.size() + 1) {
             // CASE: export list of playlists to CSV
             JSONUtility.ConvertPlaylistsToJSON(playlists);
-            // TODO call JavaScript utility to convert to CSV
-
         }
     }
 
@@ -78,8 +76,6 @@ public class ActionController {
 
             // write to JSON file
             JSONUtility.ConvertTracksToJSON(tracks);
-
-            // TODO call JavaScript utility to convert to CSV
         }
     }
 
@@ -97,8 +93,6 @@ public class ActionController {
         } else if (input == 1) {
             // CASE: write track list to CSV
             JSONUtility.ConvertTracksToJSON(tracks);
-            // TODO call JavaScript utility to convert to CSV
-
         }
     }
 
@@ -108,7 +102,7 @@ public class ActionController {
 
         OutputController.outputArtists(artists);
 
-        int input = InputManager.promptChooseArtistListOption(1);
+        int input = InputManager.promptChooseArtistListOption();
 
         if (input == 0) {
             // CASE: return to main menu
@@ -116,8 +110,6 @@ public class ActionController {
         } else if (input == 1) {
             // CASE: write artist list to CSV
             JSONUtility.ConvertArtistsToJSON(artists);
-            // TODO call JavaScript utility to convert to CSV
-
         }
     }
 
@@ -155,7 +147,6 @@ public class ActionController {
         } else if (index == playlists.size() + 1) {
             // CASE: export list of playlists to CSV
             JSONUtility.ConvertPlaylistsToJSON(playlists);
-            // TODO call JavaScript utility to convert to CSV
 
         } else if (index == playlists.size() + 2) {
             // CASE: follow playlist publicly

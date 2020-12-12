@@ -53,7 +53,7 @@ public class AuthenticationManager {
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         } catch (SpotifyWebApiException e) {
-            System.out.println("Error: issue with the Spotify API when retrieving access and refresh tokens. Trying again...");
+            System.out.println("Error: issue with the Spotify API when retrieving access and refresh tokens.");
             return false;
         }
         return true;

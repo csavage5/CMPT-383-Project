@@ -37,9 +37,11 @@ The second command will send the user to an interactive Java CLI, where they wil
     username: cmpt383project@gmail.com
     password: demoAccount
 
-It will authenticate with whichever account is currently logged into Spotify on your web browser.
+This demo account *may* display a blank list when the "List your top artists" option is selected (depends when this is graded), since the account hasn't been active long enough for Spotify to generate a list of top artists. If you have your own personal Spotify account, you're welcome to use it.
 
-In case Spotify wants extra verification when you log in, the linked email credentials:
+It will authenticate with whichever account is currently logged into Spotify on your web browser, and will present a Spotify login web page if no account is logged in.
+
+In case Spotify wants extra email verification when you log in, the linked email credentials:
 
     email:    cmpt383project@gmail.com
     password: demoAccount
@@ -64,25 +66,3 @@ The user can view information about their account:
       - Can follow any listed featured playlist
 
 The user can select options to view information in these categories. The user can choose to write out the information they are presented with to a CSV file, which will be saved to the ./spotifyCLIOutput directory. Each time a new CSV is written out, it will overwrite any file with the name "spotifyCLI_output.csv", or create a new file if one doesn't exist. The CSV is written to the folder via a bind mount to the Docker container.
-
-
-
-<!-- Topic idea:
-    - CLI Spotify client
-        - view playlist, track, other info
-        - download playlist info into CSV
-        - upload CSV into playlist
-
-Languages:
-    - Python for a Flask web server
-  
-    - Java for for CLI interface, writing to JSON, Spotify API interaction
-
-    - R for converting JSON files to CSV files
-
-The two inter-language communication methods:
-    - REST API - Java sends an HTTP request to the Python Flask server to retrieve the Spotify API authentication code
-    - Java runtime execution: run the R script within the Java VM
-
-
-Deployment technology: Docker containers -->

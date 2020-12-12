@@ -53,24 +53,27 @@ public class InputManager {
     }
 
     // (1)
-    public static int promptChoosePlaylistAction(int max) {
+    public static int promptChoosePlaylistAction(int listSize) {
 
         System.out.print("\nChoose option:\n" +
                 "0) Return to main menu\n");
 
-        if (max > 0) {
-            System.out.println("1-" + max +
+        if (listSize > 0) {
+            System.out.println("1-" + listSize +
                     ") View songs in playlist\n" +
-                    (max + 1) + ") Export this list of playlists to a CSV");
+                    (listSize + 1) + ") Export this list of playlists to a CSV");
+
+            System.out.print("> ");
+            return waitForValidInput(listSize + 1);
         }
 
         System.out.print("> ");
+        return waitForValidInput(0);
 
-        return waitForValidInput(max);
     }
 
     // (1), (2)
-    public static int promptChoosePlaylistTrackAction(int max) {
+    public static int promptChoosePlaylistTrackAction(int listSize) {
 
         System.out.print("\nChoose option:\n" +
                 "0) Return to main menu\n" +
@@ -78,50 +81,56 @@ public class InputManager {
 
         System.out.print("> ");
 
-        return waitForValidInput(max);
+        return waitForValidInput(listSize);
     }
 
     // (3)
-    public static int promptChooseArtistListOption(int max) {
+    public static int promptChooseArtistListOption() {
         System.out.print("\nChoose option:\n" +
                 "0) Return to main menu\n" +
                 "1) Write artists to CSV\n");
 
         System.out.print("> ");
 
-        return waitForValidInput(max);
+        return waitForValidInput(1);
     }
 
     // (5)
-    public static int promptChooseTopPlaylistAction(int max) {
+    public static int promptChooseTopPlaylistAction(int listSize) {
 
         System.out.print("\nChoose option:\n" +
                 "0) Return to main menu\n");
 
-        if (max > 0) {
-            System.out.println("1-" + max +
+        if (listSize > 0) {
+            System.out.println("1-" + listSize +
                     ") View songs in playlist\n" +
-                    (max + 1) + ") Export this list of playlists to a CSV\n" +
-                    (max + 2) + ") Follow a playlist");
+                    (listSize + 1) + ") Export this list of playlists to a CSV\n" +
+                    (listSize + 2) + ") Follow a playlist");
+
+            System.out.print("> ");
+            return waitForValidInput(listSize + 2);
         }
 
         System.out.print("> ");
-
-        return waitForValidInput(max + 2);
+        return waitForValidInput(0);
     }
 
     //(5)
-    public static int promptChoosePlaylistToFollow(int max) {
+    public static int promptChoosePlaylistToFollow(int listSize) {
         System.out.print("\nChoose option:\n" +
                 "0) Return to main menu\n");
 
-        if (max > 0) {
-            System.out.println("1-" + max + ") Follow playlist\n");
+        if (listSize > 0) {
+            System.out.println("1-" + listSize + ") Follow playlist\n");
+
+            System.out.print("> ");
+            return waitForValidInput(listSize);
+
         }
 
         System.out.print("> ");
+        return waitForValidInput(0);
 
-        return waitForValidInput(max);
     }
 
     /**
@@ -133,12 +142,8 @@ public class InputManager {
         int index = 0;
         while (true) {
             index = InputManager.getInputAsInt();
-
-            if (index == 0) {
-                return 0;
-            } else if (index > 0 && index <= max) {
-                return index;
-            } else if (index == max + 1) {
+            //System.out.println("waitForValidInput index: " + index);
+            if (index >= 0 && index <= max) {
                 return index;
             } else {
                 System.out.print("Error: invalid input, try again\n> ");
