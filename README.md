@@ -32,7 +32,9 @@ This project runs two containers: one is a Flask web server, and another is an i
 
     docker-compose run spotify_cli_client
 
-The second command will send the user to an interactive Java CLI, where they will be asked to copy a link into their web browser (the web browser won't launch when the Java application is run inside a Docker container). From here, the user can approve the app with a Spotify account. If the user doesn't have a Spotify account, I have made a demo account:
+The second command will send the user to an interactive Java CLI, where they will be asked to copy a link into their web browser, since the web browser won't launch when the Java application is run inside a Docker container.
+
+From here, the user can approve the app with a Spotify account. If the user doesn't have a Spotify account, I have made a demo account:
 
     username: cmpt383project@gmail.com
     password: demoAccount
