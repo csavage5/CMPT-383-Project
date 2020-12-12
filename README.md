@@ -48,7 +48,7 @@ In case Spotify wants extra email verification when you log in, the linked email
 
 ## Using Project
 
-Once the user has allowed access, they will be presented with a success webpage. This webpage sends a POST request to the local webserver, capturing an authentication code from the Spotify web API.
+Once the user has allowed access, they will be presented with a success webpage. This webpage sends a GET request to the local webserver and an authentication code in a URL parameter, which the web server catches and stores.
 
 The user will be asked to return to the Java application, which will wait until you press Enter before attempting to retrieve the code from the webserver. This code is then exchanged with Spotify for a refresh token and temporary access token.
 
